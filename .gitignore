@@ -1,0 +1,11 @@
+# Data Folders
+/data/
+
+# Logs
+*.log
+
+# Virtual Environment
+/alpha_predictor_env/
+
+# Jupyter Notebook Files
+.ipynb_checkpoints/
