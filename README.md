@@ -36,24 +36,26 @@ O projeto segue as principais etapas do ciclo de vida de um projeto de Machine L
 O projeto está organizado da seguinte forma:
 
 ```
-Alpha-Predictor/
-├── data/
-│   ├── raw/                  # Dados brutos baixados do yfinance
-│   │   ├── PETR4_raw.csv
-│   │   └── VALE3_raw.csv
-│   └── processed/            # Dados processados e prontos para modelagem
-│       └── combined_data.csv
-│   └── results/              # Dados de teste e previsões do modelo para o dashboard
-│       └── model_predictions.csv
-├── notebooks/
-│   ├── 01_coleta_e_analise_dados.ipynb
-│   ├── 02_pre_processamento.ipynb
-│   └── 03_modelagem_e_avaliacao.ipynb
-├── dashboards/
-│   └── Alpha_Predictor_Dashboard.pbix
-├── .gitignore
-├── README.md
-├── requirements.txt          # Lista de bibliotecas necessárias
+└── 📁Alpha-Predictor
+    ├── 📁data
+    │   ├── 📁processed
+    │   │   └── combined_data.csv
+    │   ├── 📁raw
+    │   │   ├── PETR4_raw.csv
+    │   │   └── VALE3_raw.csv
+    │   └── 📁results
+    │       └── model_predictions.csv
+    ├── 📁notebooks
+    │   ├── 01_coleta_e_analise_dados.ipynb
+    │   ├── 02_pre_processamento.ipynb
+    │   └── 03_modelagem_e_avaliacao.ipynb
+    ├── 📁model
+    │   └── alpha_predictor_model.pkl  <-- A nova pasta e o arquivo
+    ├── 📁dashboards
+    │   └── Alpha_Predictor_Dashboard.pbix
+    ├── .gitignore
+    ├── README.md
+    └── requirements.txt
 ```
 
 ## Resultados do Modelo
