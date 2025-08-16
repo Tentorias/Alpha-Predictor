@@ -9,3 +9,6 @@
 
 # Jupyter Notebook Files
 .ipynb_checkpoints/
+
+# Pkl
+/model/*.pkl
