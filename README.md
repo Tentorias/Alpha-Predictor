@@ -43,19 +43,19 @@ O projeto está organizado da seguinte forma:
 │   ├── 📁processed
 │   │   └── combined_data.csv
 │   ├── 📁raw
-│   │   ├── PETR4_raw.csv
-│   │   └── VALE3_raw.csv
+│   │  ├── PETR4_raw.csv
+│   │  └── VALE3_raw.csv
 │   └── 📁results
-│       └── model_predictions.csv
+│      └── model_predictions.csv
 ├── 📁notebooks
 │   ├── 01_coleta_e_analise_dados.ipynb
 │   ├── 02_pre_processamento.ipynb
 │   ├── 03_modelagem_e_avaliacao.ipynb
-│   └── 04_tuning_e_selecao_features.ipynb  # Notebook opcional para o tuning
+│   └── 04_tuning_e_selecao_features.ipynb 
 ├── 📁model
-│   └── alpha_predictor_model_baseline.pkl  # Modelo final escolhido
+│  └── alpha_predictor_model_baseline.pkl
 ├── 📁dashboards
-│   └── Alpha_Predictor_Dashboard.pbix
+│  └── Alpha_Predictor_Dashboard.pbix
 ├── .gitignore
 ├── README.md
 └── requirements.txt
@@ -77,3 +77,68 @@ Embora as métricas não superem o desempenho aleatório, elas servem como um im
 * Construção de um dashboard interativo no Power BI para visualização dos resultados.
 * Exploração de mais features (ex: dados de um índice de mercado, indicadores econômicos).
 * Teste com outros modelos, como modelos de séries temporais (ARIMA, Prophet) ou redes neurais.
+
+
+--- Optimized XGBoost Model Results ---
+
+Accuracy: 0.4873
+
+Precision: 0.4518
+
+Recall: 0.5375
+
+F1-Score: 0.4910
+
+
+
+Confusion Matrix:
+
+[[132 165]
+
+ [117 136]]
+
+
+
+Modelo com random forest: 
+
+
+
+ Accuracy:  0.5200 
+
+ Precision:  0.4777 
+
+ Recall:  0.4664 
+
+ F1-Score:  0.4720 
+
+
+
+ Confusion Matrix: 
+
+ [[168 129] 
+
+  [135 118]] 
+
+
+
+ modelo com xgboost (puro): 
+
+
+
+ --- XGBoost Model Results --- 
+
+ Accuracy: 0.5345 
+
+ Precision: 0.4939 
+
+ Recall: 0.4822 
+
+ F1-Score: 0.4880 
+
+
+
+ Confusion Matrix: 
+
+ [[172 125] 
+
+  [131 122]]
