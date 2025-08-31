@@ -38,27 +38,47 @@ O projeto está organizado da seguinte forma:
 O projeto está organizado da seguinte forma:
 
 ```
-└── 📁Alpha-Predictor
-├── 📁data
-│   ├── 📁processed
-│   │   └── combined_data.csv
-│   ├── 📁raw
-│   │  ├── PETR4_raw.csv
-│   │  └── VALE3_raw.csv
-│   └── 📁results
-│      └── model_predictions.csv
-├── 📁notebooks
-│   ├── 01_coleta_e_analise_dados.ipynb
-│   ├── 02_pre_processamento.ipynb
-│   ├── 03_modelagem_e_avaliacao.ipynb
-│   └── 04_tuning_e_selecao_features.ipynb 
-├── 📁model
-│  └── alpha_predictor_model_baseline.pkl
-├── 📁dashboards
-│  └── Alpha_Predictor_Dashboard.pbix
-├── .gitignore
-├── README.md
-└── requirements.txt
+└── 📁Alpha-Predictor/
+    ├── 📁backend/                   # Backend com FastAPI
+    │   ├── 📁app/
+    │   │   ├── __init__.py
+    │   │   └── main.py              # Lógica da API
+    │   ├── 📁static/                # Arquivos estáticos (imagens, CSS)
+    │   ├── .env                     # Variáveis de ambiente
+    │   ├── Dockerfile               # Configuração do Docker para o backend
+    │   └── requirements.txt         # Dependências Python (FastAPI, uvicorn, etc)
+    │
+    ├── 📁data/                      # Ativos de dados (intocados)
+    │   ├── 📁model/                 # Modelos ML salvos (.pkl)
+    │   │   └── alpha_predictor_model_baseline.pkl
+    │   ├── 📁processed/
+    │   │   └── combined_data.csv
+    │   ├── 📁raw/
+    │   │   ├── PETR4_raw.csv
+    │   │   └── VALE3_raw.csv
+    │   └── 📁results/
+    │       └── model_predictions.csv
+    │
+    ├── 📁frontend/                  # Aplicação React
+    │   ├── 📁public/
+    │   ├── 📁src/
+    │   │   ├── components/          # Componentes React (Botões, Gráficos)
+    │   │   └── App.js               # Componente principal
+    │   ├── .env                     # Variáveis de ambiente (API_URL)
+    │   ├── Dockerfile               # Configuração do Docker para o frontend
+    │   └── package.json             # Dependências Node.js
+    │
+    ├── 📁src/                       # Pipeline de ML (intocados)
+    │   ├── __init__.py
+    │   ├── main.py
+    │   └── pipeline/
+    │       ├── __init__.py
+    │       ├── data_loader.py
+    │       ├── feature_engineering.py
+    │       └── model_predict.py
+    │
+    ├── .gitignore                   # Arquivos a serem ignorados pelo Git
+    └── docker-compose.yml           # Orquestração com Docker
 ```
 
 ## Resultados do Modelo
