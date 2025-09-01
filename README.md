@@ -162,3 +162,5 @@ Modelo com random forest:
  [[172 125] 
 
   [131 122]]
+
+  alpha_predictor_env\Scripts\activate
