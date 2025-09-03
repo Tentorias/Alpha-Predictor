@@ -18,10 +18,6 @@ from scripts.feature_order import FEATURE_COLUMNS_ORDER
 from src.pipeline.feature_engineer import create_features
 from src.pipeline.model_predict import load_model
 
-# Load model once on startup
-MODEL_PATH = os.path.join(BASE_DIR, "data", "model", "alpha_predictor_model_tuned.pkl")
-MODEL = load_model(MODEL_PATH)
-
 app = FastAPI()
 
 @lru_cache(maxsize=32)
@@ -56,8 +52,11 @@ def predict_stock(ticker: str):
         latest_data = df_features[FEATURE_COLUMNS_ORDER].iloc[-1].to_frame().T
         latest_data = latest_data.fillna(0)
 
-        # Makes a prediction using the pre-loaded model
-        prediction = MODEL.predict(latest_data)
+        # Loads the single, universal ML model
+        model = load_model("alpha_predictor_model_tuned.pkl")
+
+        # Makes a prediction
+        prediction = model.predict(latest_data)
         return {"ticker": ticker, "prediction": int(prediction[0])}
 
     except HTTPException as e:
