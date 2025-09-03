@@ -164,3 +164,8 @@ Modelo com random forest:
   [131 122]]
 
   alpha_predictor_env\Scripts\activate
+
+  cd backend
+uvicorn app.main:app --reload
+python backend/app/main.py
+python src/pipeline/feature_engineer.py
