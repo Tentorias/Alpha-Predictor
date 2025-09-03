@@ -92,6 +92,17 @@ Após a avaliação e as tentativas de otimização, o modelo final escolhido (o
 
 Embora as métricas não superem o desempenho aleatório, elas servem como um importante *baseline* para o projeto, indicando a complexidade do problema de previsão de mercado e a necessidade de aprimoramentos futuros.
 
+## Otimizações e Melhorias do Backend (FastAPI)
+
+Após a fase de modelagem, o backend foi refatorado e otimizado para garantir maior robustez e escalabilidade. As seguintes melhorias foram implementadas:
+
+* **Caching de Dados (`lru_cache`)**: A função de coleta de dados do `yfinance` foi otimizada com um cache em memória. Isso evita requisições repetidas para o mesmo ticker, reduzindo a latência da API e o número de chamadas externas.
+* **Código à Prova de Falhas**: A função de engenharia de features (`create_features`) foi refatorada para ser mais robusta, garantindo que a API não quebre em caso de dados insuficientes ou ausentes. Isso é crucial para um sistema de previsão em tempo real.
+* **Lógica de Carregamento de Modelo Dinâmica**: O backend agora carrega o modelo de forma dinâmica com base no ticker da requisição. Isso torna a API escalável para suportar múltiplos modelos no futuro, sem a necessidade de alterações no código.
+* **Validação de Dados**: Foi adicionada uma validação explícita no endpoint para garantir que o DataFrame de features não esteja vazio, retornando um erro claro para o usuário caso não haja dados suficientes para uma previsão.
+
+Essas melhorias garantem que a API esteja mais eficiente e preparada para ser consumida pelo frontend em React.
+
 ## Próximos Passos (Para o Futuro do Projeto)
 
 * Construção de um dashboard interativo no Power BI para visualização dos resultados.
