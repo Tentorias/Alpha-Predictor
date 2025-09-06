@@ -1,10 +1,6 @@
 # src/main.py
 
-import os
-import pandas as pd
-
 from pipeline.data_loader import load_processed_data
-from pipeline.feature_engineer import create_features
 from pipeline.model_predict import load_model, make_predictions
 
 

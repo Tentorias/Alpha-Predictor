@@ -3,9 +3,10 @@
 from fastapi import FastAPI, HTTPException
 from datetime import date, timedelta
 from functools import lru_cache
+from fastapi.middleware.cors import CORSMiddleware
 
+import numpy as np
 import yfinance as yf
-import pandas as pd
 import os
 import sys
 
@@ -19,6 +20,17 @@ from src.pipeline.feature_engineer import create_features
 from src.pipeline.model_predict import load_model
 
 app = FastAPI()
+
+# Add middleware CORS
+origins = ["*"]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins = origins,
+    allow_credentials = True,
+    allow_methods = ["*"],
+    allow_headers = ["*"],
+)
 
 @lru_cache(maxsize=32)
 def fetch_stock_data(ticker: str):
@@ -50,7 +62,7 @@ def predict_stock(ticker: str):
 
         # Reorders and prepares data for the model
         latest_data = df_features[FEATURE_COLUMNS_ORDER].iloc[-1].to_frame().T
-        latest_data = latest_data.fillna(0)
+        latest_data = latest_data.fillna(np.nan)
 
         # Loads the single, universal ML model
         model = load_model("alpha_predictor_model_tuned.pkl")

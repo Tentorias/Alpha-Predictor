@@ -37,5 +37,6 @@ def create_features(df: pd.DataFrame) -> pd.DataFrame:
     
     # MACD
     df_processed["MACD"] = safe_ta(lambda s: ta.macd(s)["MACD_12_26_9"], df_processed["Close"])
+    
 
     return df_processed
