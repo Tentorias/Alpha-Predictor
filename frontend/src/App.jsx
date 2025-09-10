@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+// in the future, import the chart component here in the next step
 import './App.css';
 
-const API_URL = 'http://127.0.0.1:8000';
+const API_URL = 'http://120.0.0.1:8000';
 
 function App() {
   const [ticker, setTicker] = useState(null);
   const [prediction, setPrediction] = useState(null);
+  const [chartData, setChartData] = useState([]); 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -14,13 +16,20 @@ function App() {
     setTicker(selectedTicker);
     setLoading(true);
     setPrediction(null);
+    setChartData([]);
     setError(null);
 
     try {
-      const response = await axios.get(`${API_URL}/predict/${selectedTicker}`);
-      setPrediction(response.data.prediction);
+      const [predictionResponse, dataResponse] = await Promise.all([
+        axios.get(`${API_URL}/predict/${selectedTicker}`),
+        axios.get(`${API_URL}/data/${selectedTicker}`)
+      ]);
+      
+      setPrediction(predictionResponse.data.prediction);
+      setChartData(dataResponse.data);
+
     } catch (err) {
-      setError("Could not fetch the prediction. Is the API online?");
+      setError('Failed to fetch prediction or data. Please try again.');
       console.error(err);
     } finally {
       setLoading(false);
@@ -29,7 +38,7 @@ function App() {
 
   const renderPredictionResult = () => {
     if (loading) {
-      return <p>Loading prediction...</p>;
+      return <p>Loading...</p>;
     }
     if (error) {
       return <p className="error">{error}</p>;
@@ -48,20 +57,30 @@ function App() {
         <h1>Alpha Predictor</h1>
       </header>
       
-      <main className="main">
-        <div className="controls">
-          <h2>Select a Stock</h2>
-          <button onClick={() => handlePredict('PETR4')} disabled={loading}>
-            {loading && ticker === 'PETR4' ? '...' : 'PETR4'}
-          </button>
-          <button onClick={() => handlePredict('VALE3')} disabled={loading}>
-            {loading && ticker === 'VALE3' ? '...' : 'VALE3'}
-          </button>
+      <main className="main-layout">
+        <div className="chart-area">
+          {chartData.length > 0 ? (
+            <p>{chartData.length} data points loaded for the chart.</p>
+          ) : !loading && (
+            <p>The chart will appear here.</p>
+          )}
         </div>
-        
-        <div className="results">
-          {ticker && <h4>Result for: {ticker}</h4>}
-          {renderPredictionResult()}
+
+        <div className="controls-area">
+          <div className="controls">
+            <h2>Select a Stock</h2>
+            <button onClick={() => handlePredict('PETR4')} disabled={loading}>
+              {loading && ticker === 'PETR4' ? '...' : 'PETR4'}
+            </button>
+            <button onClick={() => handlePredict('VALE3')} disabled={loading}>
+              {loading && ticker === 'VALE3' ? '...' : 'VALE3'}
+            </button>
+          </div>
+          
+          <div className="results">
+            {ticker && <h4>Result for: {ticker}</h4>}
+            {renderPredictionResult()}
+          </div>
         </div>
       </main>
     </div>

@@ -57,13 +57,12 @@ def predict_stock(ticker: str):
         df_data = fetch_stock_data(ticker)
         df_features = create_features(df_data)
         
-        if df_features.empty:
+        if df_features.empty or len(df_features) < 20: 
             raise HTTPException(status_code=400, detail="Could not create enough features for prediction.")
 
-        # Reorders and prepares data for the model
+        # Reorders and prepares the most recent data row for the model
         latest_data = df_features[FEATURE_COLUMNS_ORDER].iloc[-1].to_frame().T
-        latest_data = latest_data.fillna(np.nan)
-
+        
         # Loads the single, universal ML model
         model = load_model("alpha_predictor_model_tuned.pkl")
 
@@ -71,6 +70,26 @@ def predict_stock(ticker: str):
         prediction = model.predict(latest_data)
         return {"ticker": ticker, "prediction": int(prediction[0])}
 
+    except HTTPException as e:
+        raise e
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Internal server error: {e}")
+    
+@app.get("/data/{ticker}")
+def get_historical_data(ticker: str):
+    # Endpoint to get historical stock data
+    try:
+        df_data = fetch_stock_data(ticker)
+        df_data_json = df_data.reset_index()
+        
+        df_chart_data = df_data_json[["Date", "Close"]]
+        df_chart_data.columns = ["date", "close"]
+        
+        # Using .loc to avoid SettingWithCopyWarning
+        df_chart_data.loc[:, "date"] = df_chart_data["date"].dt.strftime("%Y-%m-%d")
+        
+        return df_chart_data.to_dict(orient="records")
+    
     except HTTPException as e:
         raise e
     except Exception as e:
