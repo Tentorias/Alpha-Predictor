@@ -1,25 +1,27 @@
 # backend/app/main.py
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
 from datetime import date, timedelta
 from functools import lru_cache
 from fastapi.middleware.cors import CORSMiddleware
+from contextlib import asynccontextmanager
 
 import numpy as np
 import yfinance as yf
 import os
-import sys
-
-# Define project root
-BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
-sys.path.append(BASE_DIR)
 
 # Internal imports
 from scripts.feature_order import FEATURE_COLUMNS_ORDER
 from src.pipeline.feature_engineer import create_features
 from src.pipeline.model_predict import load_model
 
-app = FastAPI()
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Loads the single, universal ML model on startup
+    app.state.model = load_model("alpha_predictor_model_tuned.pkl")
+    yield
+
+app = FastAPI(lifespan=lifespan)
 
 # Add middleware CORS
 origins = ["*"]
@@ -51,7 +53,7 @@ def read_root():
     return {"message": "Welcome to the Stock Price Prediction API!"}
 
 @app.get("/predict/{ticker}")
-def predict_stock(ticker: str):
+def predict_stock(ticker: str, request: Request):
     # Main prediction endpoint, uses ML model
     try:
         df_data = fetch_stock_data(ticker)
@@ -63,8 +65,10 @@ def predict_stock(ticker: str):
         # Reorders and prepares the most recent data row for the model
         latest_data = df_features[FEATURE_COLUMNS_ORDER].iloc[-1].to_frame().T
         
-        # Loads the single, universal ML model
-        model = load_model("alpha_predictor_model_tuned.pkl")
+        # Get the model from application state (loaded via lifespan)
+        model = request.app.state.model
+        if model is None:
+            raise HTTPException(status_code=500, detail="Model is not loaded.")
 
         # Makes a prediction
         prediction = model.predict(latest_data)

@@ -5,10 +5,18 @@
 *.log
 
 # Virtual Environment
-/alpha_predictor_env/
+alpha_predictor_env/
+
+# Python Cache
+__pycache__/
+*.pyc
 
 # Jupyter Notebook Files
 .ipynb_checkpoints/
 
 # Pkl
 /model/*.pkl
+
+# Node dependencies
+node_modules/
+

@@ -38,5 +38,7 @@ def create_features(df: pd.DataFrame) -> pd.DataFrame:
     # MACD
     df_processed["MACD"] = safe_ta(lambda s: ta.macd(s)["MACD_12_26_9"], df_processed["Close"])
     
+    # Treat NaN values for time-series (forward-fill then backward-fill)
+    df_processed = df_processed.ffill().bfill()
 
     return df_processed
