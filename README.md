@@ -1,61 +1,73 @@
-# Alpha Predictor: Inteligência Artificial para Ações da B3 📈
+# Alpha Predictor: IA para Previsão de Ações (B3) 📈
 
-[![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://react.dev)
 [![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
+[![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://react.dev)
 [![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com)
-[![Scikit-Learn](https://img.shields.io/badge/scikit_learn-F7931E?style=for-the-badge&logo=scikit-learn&logoColor=white)](https://scikit-learn.org)
+[![License](https://img.shields.io/badge/license-MIT-green?style=for-the-badge)](LICENSE)
 
-O **Alpha Predictor** é uma aplicação completa (Fullstack + IA) que utiliza algoritmos de Machine Learning para prever a direção do preço (Alta ou Baixa) de grandes ativos da B3 (como `PETR4` e `VALE3`) no dia seguinte.
+Uma ferramenta interativa que utiliza **Inteligência Artificial** (Machine Learning) para prever a direção do movimento de fechamento (Alta ou Baixa) de ações da Bolsa brasileira (B3) para o dia seguinte (D+1).
 
-Ele traz um **painel interativo moderno com tema escuro**, integrado a um backend rápido em FastAPI e modelos preditivos em Python.
+Este é um projeto de portfólio completo que demonstra a integração de um pipeline de Data Science, uma API de alto desempenho em Python e um dashboard moderno em React, tudo empacotado em containers prontos para produção.
 
 ---
 
 ## 🖥️ Demonstração Visual
 
-Abaixo está o visual moderno do painel financeiro criado para o projeto. Ele possui carregamento rápido, gráficos interativos de linha de preços e badges inteligentes indicando a recomendação gerada pelo modelo de Inteligência Artificial:
+Aqui está uma prévia do sistema rodando com o painel gráfico interativo de ações e as predições geradas pela inteligência artificial:
 
-*(Insira aqui um GIF animado ou imagem do painel financeiro rodando localmente)*
+*(Tire um print da tela do seu app rodando localmente no navegador e salve-o como `dashboard.png` dentro de uma pasta `docs/` no projeto para exibi-lo aqui no GitHub!)*
+
+![Alpha Predictor Dashboard](docs/dashboard.png)
 
 ---
 
-## 🚀 Como Executar o Projeto (Sem complicação)
+## ✨ Funcionalidades Principais
 
-O projeto está totalmente configurado para rodar em qualquer máquina usando **Docker**. Você não precisa instalar Python, Node.js ou configurar dependências manualmente.
+* **Predição Direcional de Ativos (D+1)**: Classificação estatística (XGBoost/Random Forest) informando a tendência para o próximo fechamento (ALTA ou BAIXA).
+* **Gráfico de Cotação Histórica**: Gráfico interativo e dinâmico de linha (Recharts) mostrando o fechamento diário do último ano do ativo selecionado.
+* **Consulta em Tempo Real**: Coleta de dados financeiros atualizados automaticamente via integração com Yahoo Finance.
+* **Design Dark Moderno**: Interface responsiva e elegante com visual focado em plataformas de investimento profissionais (Glassmorphism).
+
+---
+
+## 🚀 Como Executar o Projeto em 1 Minuto (Docker)
+
+Toda a infraestrutura do projeto (React Frontend e FastAPI Backend) foi containerizada. Você não precisa instalar Python, Node ou configurar variáveis locais.
 
 ### Pré-requisitos
 * [Docker Desktop](https://www.docker.com/products/docker-desktop/) instalado e aberto.
 
-### Executar em 1 Comando
+### Rodar a Aplicação
 Abra o terminal na pasta raiz do projeto e execute:
 
 ```bash
 docker compose up --build
 ```
 
-Após os containers iniciarem, abra o seu navegador nas portas abaixo:
-* 🌐 **Painel da Interface (Frontend):** [http://localhost:3000](http://localhost:3000)
-* ⚙️ **Documentação da API (Backend Swagger):** [http://localhost:8000/docs](http://localhost:8000/docs)
+Após a inicialização rápida, acesse no seu navegador:
+* 🌐 **Interface Web (React):** [http://localhost:3000](http://localhost:3000)
+* ⚙️ **Documentação da API (FastAPI):** [http://localhost:8000/docs](http://localhost:8000/docs)
 
-*Para parar a aplicação:* `docker compose down`
-
----
-
-## 🏗️ Como o Projeto foi Construído
-
-* **Frontend (Interface):** Desenvolvido em **React** com componentes interativos da biblioteca **Recharts** para desenhar os gráficos de cotação em tempo real e ícones da **Lucide React**. Servido em produção de forma ultraleve usando o servidor web **Nginx**.
-* **Backend (API):** Desenvolvido em **FastAPI (Python)**, com foco em respostas sub-milissegundo para o usuário final.
-* **Inteligência Artificial (IA/ML):** Modelagem preditiva usando algoritmos clássicos de mercado (**Random Forest** e **XGBoost**) alimentados por indicadores de análise técnica (RSI, MACD, Médias Móveis).
+*(Para desligar os servidores, use o comando: `docker compose down`)*
 
 ---
 
-## 🔬 Detalhes Técnicos e Arquitetura
+## 📘 Detalhes Técnicos e Arquitetura
 
-Para os desenvolvedores, engenheiros ou Tech Leads que desejam analisar o código em profundidade, o detalhamento das decisões difíceis de desenvolvimento de software e ciência de dados está no arquivo dedicado:
+Se você é um desenvolvedor, líder técnico ou recrutador técnico e quer entender as decisões de engenharia por trás deste projeto (como cache em memória RAM, tratamento de nulos em séries temporais e performance dos modelos), acesse o documento completo:
 
-👉 **[Acesse a Documentação Técnica e Arquitetura aqui](file:///c:/Users/mathe/Alpha-Predictor/ARCHITECTURE.md)**
+👉 **[Ler Documento de Detalhes Técnicos (TECHNICAL.md)](TECHNICAL.md)**
 
-*Lá você encontrará explicações sobre:*
-* Inicialização otimizada em RAM com FastAPI `lifespan`.
-* Tratamento robusto contra erros matemáticos (imputação de dados nulos nas séries temporais).
-* Discussão conceitual teórica sobre a Hipótese de Mercado Eficiente (HME) aplicada a IA.
+---
+
+## 📁 Estrutura Simplificada
+
+```
+└── 📁Alpha-Predictor/
+    ├── 📁backend/         # API FastAPI & Configurações Docker
+    ├── 📁frontend/        # Dashboard React (Vite, Recharts e CSS Moderno)
+    ├── 📁notebooks/       # Jupyter Notebooks com análises de Data Science
+    ├── 📁src/             # Código-fonte da pipeline de Machine Learning
+    ├── docker-compose.yml # Orquestrador de infraestrutura
+    └── TECHNICAL.md       # Explicações técnicas detalhadas das decisões do projeto
+```
