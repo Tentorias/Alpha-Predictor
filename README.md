@@ -15,9 +15,11 @@ Este é um projeto de portfólio completo que demonstra a integração de um pip
 
 Aqui está uma prévia do sistema rodando com o painel gráfico interativo de ações e as predições geradas pela inteligência artificial:
 
-*(Tire um print da tela do seu app rodando localmente no navegador e salve-o como `dashboard.png` dentro de uma pasta `docs/` no projeto para exibi-lo aqui no GitHub!)*
+### Visualização de Compra (PETR4 - Alta)
+![Alpha Predictor - PETR4](docs/petr4_dashboard.png)
 
-![Alpha Predictor Dashboard](docs/dashboard.png)
+### Visualização de Venda (VALE3 - Baixa)
+![Alpha Predictor - VALE3](docs/vale3_dashboard.png)
 
 ---
 
