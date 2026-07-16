@@ -15,20 +15,27 @@ Este é um projeto de portfólio completo que demonstra a integração de um pip
 
 Aqui está uma prévia do sistema rodando com o painel gráfico interativo de ações e as predições geradas pela inteligência artificial:
 
-### Visualização de Compra (PETR4 - Alta)
-![Alpha Predictor - PETR4](docs/petr4_dashboard.png)
+### 1. Painel Principal (Gráfico de Preço)
+![Preço do Ativo](docs/preco_ativo.png)
 
-### Visualização de Venda (VALE3 - Baixa)
-![Alpha Predictor - VALE3](docs/vale3_dashboard.png)
+### 2. Backtesting Quantitativo (Retorno Acumulado vs Buy & Hold)
+![Backtesting](docs/backtesting.png)
+
+### 3. Painel de Explicabilidade & Métricas de IA (XAI)
+![Explicabilidade e Métricas da IA](docs/explicabilidade_xai.png)
+
+### 4. Busca Dinâmica e Persistente de Ativos da B3
+![Modal de Busca](docs/modal_busca.png)
 
 ---
 
 ## ✨ Funcionalidades Principais
 
-* **Predição Direcional de Ativos (D+1)**: Classificação estatística (XGBoost/Random Forest) informando a tendência para o próximo fechamento (ALTA ou BAIXA).
-* **Gráfico de Cotação Histórica**: Gráfico interativo e dinâmico de linha (Recharts) mostrando o fechamento diário do último ano do ativo selecionado.
-* **Consulta em Tempo Real**: Coleta de dados financeiros atualizados automaticamente via integração com Yahoo Finance.
-* **Design Dark Moderno**: Interface responsiva e elegante com visual focado em plataformas de investimento profissionais (Glassmorphism).
+* **Predição Direcional de Ativos (D+1)**: Classificação estatística informando a tendência para o próximo fechamento (ALTA ou BAIXA) baseada em indicadores técnicos.
+* **Backtesting Quantitativo em Tempo Real**: Comparação direta do rendimento acumulado da estratégia da IA contra a compra passiva (*Buy & Hold*), calculando a geração de *Alfa* sobre uma simulação financeira de R$ 1.000,00.
+* **Explicabilidade de Modelo (XAI)**: Transparência total mostrando o peso de cada indicador técnico na decisão da IA (Feature Importance) e a Matriz de Confusão de teste do modelo.
+* **Seleção Dinâmica de Tickers**: Busca direta no Yahoo Finance para qualquer ticker brasileiro da B3 via modal com persistência de lista no navegador (*localStorage*).
+* **Gráficos Interativos**: Gráficos dinâmicos construídos com React e Recharts que se adaptam dinamicamente ao ativo selecionado.
 
 ---
 
