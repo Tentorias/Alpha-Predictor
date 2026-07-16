@@ -8,6 +8,7 @@ from contextlib import asynccontextmanager
 
 import numpy as np
 import yfinance as yf
+import pandas as pd
 import os
 
 # Internal imports
@@ -98,3 +99,71 @@ def get_historical_data(ticker: str):
         raise e
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Internal server error: {e}")
+    
+@app.get("/backtest/{ticker}")
+def backtest_stock(ticker: str, request: Request):
+    # Endpoint to simulate strategy backtesting
+    try:
+        df_data = fetch_stock_data(ticker)
+        df_features = create_features(df_data)
+        
+        if df_features.empty or len(df_features) < 20: 
+            raise HTTPException(status_code=400, detail="Could not create enough features for backtesting.")
+
+        # Get the model from application state
+        model = request.app.state.model
+        if model is None:
+            raise HTTPException(status_code=500, detail="Model is not loaded.")
+
+        # Reorder features for the model and predict in batch
+        df_features_subset = df_features[FEATURE_COLUMNS_ORDER]
+        predictions = model.predict(df_features_subset)
+        
+        # Calculate returns
+        df_backtest = pd.DataFrame(index=df_features.index)
+        df_backtest['Daily_Return'] = df_features['Close'].pct_change().fillna(0)
+        df_backtest['Prediction'] = predictions
+        
+        # Strategy return matches the asset return only if the prediction from the PREVIOUS day was 1
+        df_backtest['Strategy_Return'] = df_backtest['Daily_Return'] * df_backtest['Prediction'].shift(1).fillna(0)
+        
+        # Calculate cumulative returns starting from R$ 1,000
+        df_backtest['buy_and_hold'] = (1000.0 * (1.0 + df_backtest['Daily_Return']).cumprod()).round(2)
+        df_backtest['strategy'] = (1000.0 * (1.0 + df_backtest['Strategy_Return']).cumprod()).round(2)
+        
+        # Date string formatting
+        df_backtest['date'] = df_backtest.index.strftime('%Y-%m-%d')
+        
+        return df_backtest[['date', 'buy_and_hold', 'strategy']].to_dict(orient="records")
+
+    except HTTPException as e:
+        raise e
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Internal server error during backtesting: {e}")
+    
+@app.get("/model/metrics")
+def get_model_metrics():
+    # Endpoint to get static model training evaluation metrics (Explainable AI)
+    return {
+        "feature_importances": [
+            {"name": "Retorno Diário", "value": 14.40},
+            {"name": "MACD", "value": 13.34},
+            {"name": "Volume de Negociação", "value": 13.18},
+            {"name": "RSI (I.F.R.)", "value": 12.64},
+            {"name": "Média Móvel (5 dias)", "value": 12.33},
+            {"name": "Média Móvel (20 dias)", "value": 11.49},
+            {"name": "Preço de Fechamento", "value": 11.47},
+            {"name": "Média Móvel (10 dias)", "value": 11.11}
+        ],
+        "confusion_matrix": {
+            "true_negative": 168,
+            "false_positive": 129,
+            "false_negative": 135,
+            "true_positive": 118,
+            "accuracy": 0.5200,
+            "precision": 0.4777,
+            "recall": 0.4664,
+            "f1_score": 0.4720
+        }
+    }
+
